@@ -1,0 +1,6 @@
+select it.[group],[date], inv_no, batchno, fsentitem as item, fsentqty as qty,
+'Lot-'+cast(ROW_NUMBER() OVER(PARTITION BY fsentitem order by batchno asc) as varchar) as Lot_no,
+it.u_vendor as vendor
+from main m
+left join it_mast it on m.fsentitem=it.it_name
+where entry_ty='W2' and [date] >= '2026-04-01' order by [date],Inv_no ASC

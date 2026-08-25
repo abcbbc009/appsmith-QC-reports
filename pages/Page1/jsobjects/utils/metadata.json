@@ -1,0 +1,16 @@
+{
+  "gitSyncId": "6a2a9bccc319bc733d4226be_dfb7145a-77a6-4188-b7be-a2d39d5fbec0",
+  "id": "Page1_utils",
+  "unpublishedCollection": {
+    "name": "utils",
+    "pageId": "Page1",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": [
+      {
+        "name": "currentTime",
+        "value": "\"\""
+      }
+    ]
+  }
+}

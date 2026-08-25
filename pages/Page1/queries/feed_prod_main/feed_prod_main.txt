@@ -1,0 +1,7 @@
+select distinct ot.dept, ot.BatchNo, ot.inv_no as challan, ot.[date],ot.party_nm, ot.u_fgname, isnull(sum(ot.U_FGQTY),0) as [out], isnull(sum(rc.U_FGQTY),0) as rcvd,
+(isnull(sum(ot.U_FGQTY),0)-isnull(sum(rc.U_FGQTY),0)) as bal, max(rc.[date]) as lastact
+from iiitem ot
+left join iritem rc on ot.dept=rc.dept and ot.BatchNo=rc.BatchNo and ot.U_FGNAME=rc.U_FGNAME and rc.U_FGQTY<>0
+where ot.batchno = {{sel_batch.selectedOptionValue}} and ot.U_FGQTY<>0 and ot.[date] >= '2026-04-01' and  ot.U_FGNAME = {{tb_main.selectedRow.item}}
+group by ot.[date],ot.dept, ot.BatchNo, ot. inv_no, ot.party_nm, ot.U_FGNAME
+order by ot.[date]

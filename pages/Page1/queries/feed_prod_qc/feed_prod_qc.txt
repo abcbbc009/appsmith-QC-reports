@@ -1,0 +1,16 @@
+--select distinct ot.dept, rtrim(it.[group]) as [group], ot.BatchNo, ot.inv_no as challan, ot.[date],ot.party_nm, ot.u_fgname, isnull(ot.U_FGQTY,0) as [out], isnull(rc.U_FGQTY,0) as rcvd,
+--(isnull(ot.U_FGQTY,0)-isnull(rc.U_FGQTY,0)) as bal
+--from iiitem ot
+--left join iritem rc on ot.dept=rc.dept and ot.BatchNo=rc.BatchNo and ot.U_FGNAME=rc.U_FGNAME and rc.U_FGQTY<>0
+--left join it_mast it on ot.u_fgname=it.it_name
+--where ot.batchno <> '' and ot.U_FGQTY<>0 and ot.[date] >= '2026-04-01' and ot.batchno = 
+--order by ot.[date]
+
+select i.entry_ty,i.[date],i.inv_no,i.party_nm,it.[group],i.u_fgname,i.dept,i.BatchNo,i.item, i.qty,i.ItemRowId,
+d.AITran_cd,d.U_MARK1,d.U_NOS,d.U_REP,d.U_COUNT,d.U_TOT,d.U_STATUS,d.U_DATE, d.u_stitch,
+cast(ROW_NUMBER() over (partition by d.itemrowid order by d.u_date asc) as varchar) as lsrl
+from IRItem i
+left join IRItemAInfo d on i.TRAN_CD=d.tran_cd and i.ItemRowId=d.ItemRowId 
+left join it_mast it on i.it_code=it.It_code
+where i.l_yn='2026-2027' and dept not in ('FUSING') and d.AITran_cd is not null and i.BatchNo like {{sel_batch.selectedOptionValue}} and i.U_FGNAME = {{tb_main.selectedRow.item}}
+order by [date]
